@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+
+
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<title>阿燕</title>
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html, body {
+    width:100%; height:100%; overflow:hidden;
+    background: radial-gradient(circle at 50% 36%, #2d0a1f 0%, #170611 48%, #060204 100%);
+    font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
+    -webkit-tap-highlight-color: transparent;
+    user-select:none;
+    touch-action: none;
+    overscroll-behavior: none;
+  }
+
+  /* ================= 背景 ================= */
+  .bg-heart {
+    position:fixed; color:rgba(255,90,140,.06);
+    animation: floatUp linear infinite;
+    pointer-events:none; z-index:0;
+  }
+  @keyframes floatUp {
+    from { transform: translateY(0) rotate(0deg); opacity:0; }
+    15%  { opacity:1; }
+    85%  { opacity:1; }
+    to   { transform: translateY(-112vh) rotate(35deg); opacity:0; }
+  }
+  .star {
+    position:fixed; width:2px; height:2px; border-radius:50%;
+    background:#fff; opacity:.35; pointer-events:none; z-index:0;
+    animation: twinkle 3.5s ease-in-out infinite;
+  }
+  @keyframes twinkle {
+    0%,100% { opacity:.12; transform:scale(1); }
+    50%     { opacity:.7;  transform:scale(1.6); }
+  }
+
+  /* ================= 中央文字 ================= */
+  #hint {
+    position:fixed; left:50%; top:50%; transform:translate(-50%,-50%);
+    z-index:2; pointer-events:none; text-align:center;
+    animation: breathe 3.2s ease-in-out infinite;
+    transition: opacity 1s;
+  }
+  @keyframes breathe {
+    0%,100% { opacity:.9; transform:translate(-50%,-50%) scale(1); }
+    50%     { opacity:.5; transform:translate(-50%,-50%) scale(1.04); }
+  }
+  #hint .name {
+    font-size:38px; letter-spacing:15px; text-indent:15px;
+    font-weight:200; color:#ff8fb3; margin-bottom:26px;
+    text-shadow:0 0 30px rgba(255,110,160,.6), 0 0 70px rgba(255,60,120,.25);
+  }
+  #hint .sub {
+    font-family:"Songti SC","STSong",serif;
+    font-size:13px; letter-spacing:6.5px; text-indent:6.5px;
+    font-weight:300; color:rgba(255,185,205,.55);
+  }
+
+  /* ================= 滑动轨迹爱心 ================= */
+  .trail-heart {
+    position:fixed; z-index:8; pointer-events:none;
+    line-height:1; will-change: transform, opacity;
+    animation: trailFade 1.35s cubic-bezier(.25,.8,.35,1) forwards;
+  }
+  @keyframes trailFade {
+    0%   { transform: translate(-50%,-50%) scale(.25) rotate(0deg);  opacity:1; filter:blur(0); }
+    30%  { transform: translate(-50%,-50%) scale(1.1)  rotate(6deg); opacity:.95; }
+    100% { transform: translate(-50%,-190%) scale(.7) rotate(-18deg); opacity:0; filter:blur(1.5px); }
+  }
+
+  /* ================= 停留聚成大爱心 ================= */
+  .cluster-heart {
+    position:fixed; z-index:9; pointer-events:none;
+    line-height:1; will-change: transform, opacity;
+    animation: cluster 1.9s cubic-bezier(.2,.8,.3,1) forwards;
+  }
+  @keyframes cluster {
+    0%   { transform: translate(-50%,-50%) scale(0)   rotate(0deg);   opacity:0; }
+    35%  { transform: translate(-50%,-50%) scale(1.5) rotate(10deg);  opacity:1; }
+    70%  { transform: translate(-50%,-50%) scale(1.15) rotate(-5deg); opacity:1; }
+    100% { transform: translate(-50%,-140%) scale(1.5) rotate(0deg);  opacity:0; }
+  }
+
+  /* ================= 同心波纹 ================= */
+  .ring {
+    position:fixed; z-index:6; pointer-events:none; border-radius:50%;
+    border:1px solid rgba(255,125,165,.55);
+    animation: ringOut 1.1s cubic-bezier(.15,.7,.3,1) forwards;
+  }
+  @keyframes ringOut {
+    from { width:10px; height:10px; opacity:.9; transform:translate(-50%,-50%); }
+    to   { width:300px; height:300px; opacity:0; transform:translate(-50%,-50%); }
+  }
+
+  /* ==================================================
+     ★ 情话掉落（核心区）
+     从指尖位置落下，缓缓坠到底部，途中淡出
+     ================================================== */
+  .love-word {
+    position:fixed; z-index:10; pointer-events:none;
+    font-family:"Songti SC","STSong",serif;
+    white-space:nowrap;
+    letter-spacing:2.4px;
+    text-shadow:0 0 18px rgba(255,90,140,.55), 0 2px 8px rgba(0,0,0,.6);
+    will-change: transform, opacity;
+    animation: wordFall cubic-bezier(.35,.1,.4,1) forwards;
+  }
+  @keyframes wordFall {
+    0% {
+      transform: translate(-50%,-50%) scale(.7) rotate(var(--r1));
+      opacity:0;
+      filter: blur(2px);
+    }
+    15% {
+      transform: translate(-50%,-50%) scale(1) rotate(var(--r2));
+      opacity:1;
+      filter: blur(0);
+    }
+    75% {
+      opacity:.85;
+    }
+    100% {
+      transform: translate(-50%, 190px) scale(.95) rotate(var(--r3));
+      opacity:0;
+      filter: blur(1.5px);
+    }
+  }
+
+  /* ================= 中央弹出的重点句 ================= */
+  .float-line {
+    position:fixed; z-index:11; pointer-events:none;
+    font-family:"Songti SC","STSong",serif;
+    font-size:14px; letter-spacing:2.8px;
+    color:rgba(255,205,222,.92); white-space:nowrap;
+    text-shadow:0 0 20px rgba(255,90,140,.65);
